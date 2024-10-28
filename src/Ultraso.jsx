@@ -15,6 +15,7 @@ function Ultraso() {
         const response = await fetch('http://localhost:8088/ultra');
         const data = await response.json();
         setRecords(data);
+        navigate('/')
       } catch (error) {
         console.error('Error fetching records:', error);
       }

@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'; 
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom'; // No need to import useNavigate if not using
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
 function Xray() {
   const [records, setRecords] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchRecords = async () => {
       try {
+        // Change this API endpoint for production
         const response = await fetch('http://localhost:8088/xray');
         const data = await response.json();
         setRecords(data);
@@ -34,7 +34,7 @@ function Xray() {
         await fetch(`http://localhost:8088/xray/${id}`, {
           method: 'DELETE',
         });
-        setRecords(records.filter(record => record.id !== id)); // Remove deleted record from state
+        setRecords(records.filter(record => record.id !== id)); 
       } catch (error) {
         console.error('Error deleting record:', error);
       }
@@ -44,7 +44,7 @@ function Xray() {
   return (
     <div className="container mt-5">
       <Link to="/addxrayrec" className='btn btn-success'>Add+</Link>
-      <h1 className="text-center mb-4">Xays Records</h1>
+      <h1 className="text-center mb-4">Xray Records</h1>
       <div className="mb-4">
         <input
           type="text"
@@ -61,7 +61,6 @@ function Xray() {
             <th>Age</th>
             <th>Referred By</th>
             <th>Gender</th>
-            {/* <th>Test Type</th> */}
             <th>Number</th>
             <th>Report</th>
             <th>Action</th>
@@ -75,12 +74,11 @@ function Xray() {
                 <td>{record.age}</td>
                 <td>{record.refby}</td>
                 <td>{record.gender}</td>
-                {/* <td>{record.testtype}</td> */}
                 <td>{record.number}</td>
                 <td>{record.report}</td>
                 <td>
-                <Link 
-                    to={`/updatexrayrec/${record.id}`} // Use ID in the URL
+                  <Link 
+                    to={`/updatexrayrec/${record.id}`} // Ensure this route exists
                     className='btn btn-success bi bi-pencil me-3'
                   >
                     Update
@@ -96,7 +94,7 @@ function Xray() {
             ))
           ) : (
             <tr>
-              <td colSpan="8" className="text-center">No records found</td>
+              <td colSpan="7" className="text-center">No records found</td>
             </tr>
           )}
         </tbody>
